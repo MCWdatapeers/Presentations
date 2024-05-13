@@ -1,0 +1,12 @@
+name: datapeers_shiny_exp
+title: datapeers_shiny_exp
+username: lisaerein
+account: lisaerein
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 11903924
+bundleId: 8565202
+url: https://lisaerein.shinyapps.io/datapeers_shiny_exp/
+version: 1
+asMultiple: FALSE
+asStatic: FALSE
