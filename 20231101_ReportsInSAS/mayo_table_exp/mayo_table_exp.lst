@@ -1,0 +1,213 @@
+                                                           The SAS System                      12:24 Wednesday, November 1, 2023   1
+
+                                                       The CONTENTS Procedure
+
+              Data Set Name        WORK.HEART                                               Observations          5209
+              Member Type          DATA                                                     Variables             17  
+              Engine               V9                                                       Indexes               0   
+              Created              11/01/2023 12:24:12                                      Observation Length    168 
+              Last Modified        11/01/2023 12:24:12                                      Deleted Observations  0   
+              Protection                                                                    Compressed            NO  
+              Data Set Type                                                                 Sorted                NO  
+              Label                                                                                                   
+              Data Representation  SOLARIS_X86_64, LINUX_X86_64, ALPHA_TRU64, LINUX_IA64                              
+              Encoding             latin1  Western (ISO)                                                              
+
+
+                                                 Engine/Host Dependent Information
+
+                   Data Set Page Size          65536                                                             
+                   Number of Data Set Pages    14                                                                
+                   First Data Page             1                                                                 
+                   Max Obs per Page            389                                                               
+                   Obs in First Data Page      365                                                               
+                   Number of Data Set Repairs  0                                                                 
+                   Filename                    /saswork/SAS_work58B700017A65_gouda.biostat.mcw.edu/heart.sas7bdat
+                   Release Created             9.0401M7                                                          
+                   Host Created                Linux                                                             
+                   Inode Number                4294980386                                                        
+                   Access Permission           rw-r--r--                                                         
+                   Owner Name                  lrein                                                             
+                   File Size                   960KB                                                             
+                   File Size (bytes)           983040                                                            
+
+
+                                            Alphabetic List of Variables and Attributes
+ 
+                                 #    Variable          Type    Len    Label
+
+                                12    AgeAtDeath        Num       8    Age at Death                
+                                 5    AgeAtStart        Num       8    Age at Start                
+                                 3    AgeCHDdiag        Num       8    Age CHD Diagnosed           
+                                15    BP_Status         Char      7    Blood Pressure Status       
+                                14    Chol_Status       Char     10    Cholesterol Status          
+                                13    Cholesterol       Num       8                                
+                                 2    DeathCause        Char     26    Cause of Death              
+                                 8    Diastolic         Num       8                                
+                                 6    Height            Num       8                                
+                                10    MRW               Num       8    Metropolitan Relative Weight
+                                 4    Sex               Char      6                                
+                                11    Smoking           Num       8                                
+                                17    Smoking_Status    Char     17    Smoking Status              
+                                 1    Status            Char      5                                
+                                 9    Systolic          Num       8                                
+                                 7    Weight            Num       8                                
+                                16    Weight_Status     Char     11    Weight Status               
+                                                                                               12:24 Wednesday, November 1, 2023   2
+
+Obs                  tit1                    tit2  tit3  tit4  ft1  ft2  ft3  ft4  ft5          level          ci  c1
+
+  1 Patient characteristics by vital status                                             Age CHD Diagnosed                       
+  2 Patient characteristics by vital status                                             Age CHD Diagnosed                       
+  3                                                                                         N                      555          
+  4                                                                                         Mean (SD)              62.9 (10.1)  
+  5                                                                                         Median                 63.0         
+  6                                                                                         Q1, Q3                 57.0, 70.0   
+  7                                                                                         Range                  (32.0-88.0)  
+  8                                                                                                                             
+
+Obs c2           ctotal       _line   p1     p2     p3   p4   p5   p6   p7   p8 p9 p10  p11    p12    p13        pvalue
+
+  1                             0        .      . 0.3488 .  0.3488 .  0.2902 .  .   .       . 0.2902 0.2921 0.2902~{super 1} 
+  2                             1        .      . 0.3488 .  0.3488 .  0.2902 .  .   .       . 0.2902 0.2921 0.2902~{super 1} 
+  3 894          1449           2        .      .      . .       . .       . .  .   .       .      .      .                  
+  4 63.5 (10.0)  63.3 (10.0)    3        .      .      . .       . .       . .  .   .       .      .      .                  
+  5 63.0         63.0           4        .      .      . .       . .       . .  .   .       .      .      .                  
+  6 57.0, 70.0   57.0, 70.0     5        .      .      . .       . .       . .  .   .       .      .      .                  
+  7 (33.0-90.0)  (32.0-90.0)    6        .      .      . .       . .       . .  .   .       .      .      .                  
+  8                             7        .      .      . .       . .       . .  .   .       .      .      .                  
+
+Obs nvar    oldline    nby    byn1     by1     fby1     byn2    by2     fby2    nobs    pfoot
+
+  1   1        1        2     3218    Alive    Alive    1991    Dead    Dead    5209      Y  
+  2   1        1        2     3218    Alive    Alive    1991    Dead    Dead    5209      Y  
+  3   1        .        .        .                         .                       .         
+  4   1        .        .        .                         .                       .         
+  5   1        .        .        .                         .                       .         
+  6   1        .        .        .                         .                       .         
+  7   1        .        .        .                         .                       .         
+  8   1        .        .        .                         .                       .         
+
+Obs                                                               pft
+
+  1 ~{super 1}Equal Variance T-Test    ~{super 2}Fisher Exact    ~{super 3}Wilcoxon    ~{super 4}Unequal Variance T-Test    ~{super 
+  2 ~{super 1}Equal Variance T-Test    ~{super 2}Fisher Exact    ~{super 3}Wilcoxon    ~{super 4}Unequal Variance T-Test    ~{super 
+  3                                                                                                                                 
+  4                                                                                                                                 
+  5                                                                                                                                 
+  6                                                                                                                                 
+  7                                                                                                                                 
+  8                                                                                                                                 
+
+Obs fdate    haveci    havetot    havep
+
+  1   Y         0         1         1  
+  2   Y         0         1         1  
+  3             .         .         .  
+  4             .         .         .  
+  5             .         .         .  
+  6             .         .         .  
+  7             .         .         .  
+  8             .         .         .  
+                                                                                               12:24 Wednesday, November 1, 2023   3
+
+ 
+                                                                                              c
+                                            l                                                 t        _
+       t  t  t  t                           e                                                 o        l
+     O i  i  i  i  f  f  f  f  f            v                                                 t        i
+     b t  t  t  t  t  t  t  t  t            e            c        c             c             a        n    p       p       p
+     s 1  2  3  4  1  2  3  4  5            l            i        1             2             l        e    1       2       3
+
+     9                            Sex                                                                  1  0.0000  0.0000       .
+    10                                Female                1977 (68.8%)   896 (31.2%)   2873 (55.2%)  2       .       .       .
+    11                                Male                  1241 (53.1%)   1095 (46.9%)  2336 (44.8%)  3       .       .       .
+    12                                                                                                 4       .       .       .
+    13                            Cholesterol                                                          1       .       .  0.0000
+    14                                N                     3135           1922          5057          2       .       .       .
+    15                                Mean (SD)             222.0 (43.1)   236.3 (46.5)  227.4 (44.9)  3       .       .       .
+    16                                Median                217.0          232.0         223.0         4       .       .       .
+    17                                Q1, Q3                192.0, 246.0   204.0, 264.0  196.0, 255.0  5       .       .       .
+    18                                Range                 (115.0-435.0)  (96.0-568.0)  (96.0-568.0)  6       .       .       .
+    19                                                                                                 7       .       .       .
+    20                            Systolic                                                             1       .       .  0.0000
+    21                                N                     3218           1991          5209          2       .       .       .
+    22                                Mean (SD)             131.2 (18.6)   146.2 (27.9)  136.9 (23.7)  3       .       .       .
+    23                                Median                130.0          140.0         132.0         4       .       .       .
+    24                                Q1, Q3                120.0, 140.0   126.0, 160.0  120.0, 148.0  5       .       .       .
+    25                                Range                 (86.0-250.0)   (82.0-300.0)  (82.0-300.0)  6       .       .       .
+    26                                                                                                 7       .       .       .
+    27                            Diastolic                                                            1       .       .  0.0000
+    28                                N                     3218           1991          5209          2       .       .       .
+
+                                                                                    o                                      h
+                                                                      p             l                                   h  a
+                                                                      v             d                          p     f  a  v  h
+                                                                      a          n  l     b     f  b     f  n  f     d  v  e  a
+     O                             p    p       p       p             l          v  i  n  y  b  b  y  b  b  o  o  p  a  e  t  v
+     b p    p     p    p     p  p  1    1       1       1             u          a  n  b  n  y  y  n  y  y  b  o  f  t  c  o  e
+     s 4    5     6    7     8  9  0    1       2       3             e          r  e  y  1  1  1  2  2  2  s  t  t  e  i  t  p
+
+     9 .       .  .       .  .  .  .  0.0000       .       .  <0.0001~{super 2}  2  .  .  .        .        .           .  .  .
+    10 .       .  .       .  .  .  .       .       .       .                     2  .  .  .        .        .           .  .  .
+    11 .       .  .       .  .  .  .       .       .       .                     2  .  .  .        .        .           .  .  .
+    12 .       .  .       .  .  .  .       .       .       .                     2  .  .  .        .        .           .  .  .
+    13 .  0.0000  .  0.0000  .  .  .       .  0.0000  0.0000  <0.0001~{super 3}  3  .  .  .        .        .           .  .  .
+    14 .       .  .       .  .  .  .       .       .       .                     3  .  .  .        .        .           .  .  .
+    15 .       .  .       .  .  .  .       .       .       .                     3  .  .  .        .        .           .  .  .
+    16 .       .  .       .  .  .  .       .       .       .                     3  .  .  .        .        .           .  .  .
+    17 .       .  .       .  .  .  .       .       .       .                     3  .  .  .        .        .           .  .  .
+    18 .       .  .       .  .  .  .       .       .       .                     3  .  .  .        .        .           .  .  .
+    19 .       .  .       .  .  .  .       .       .       .                     3  .  .  .        .        .           .  .  .
+    20 .  0.0000  .  0.0000  .  .  .       .  0.0000  0.0000  <0.0001~{super 3}  4  .  .  .        .        .           .  .  .
+    21 .       .  .       .  .  .  .       .       .       .                     4  .  .  .        .        .           .  .  .
+    22 .       .  .       .  .  .  .       .       .       .                     4  .  .  .        .        .           .  .  .
+    23 .       .  .       .  .  .  .       .       .       .                     4  .  .  .        .        .           .  .  .
+    24 .       .  .       .  .  .  .       .       .       .                     4  .  .  .        .        .           .  .  .
+    25 .       .  .       .  .  .  .       .       .       .                     4  .  .  .        .        .           .  .  .
+    26 .       .  .       .  .  .  .       .       .       .                     4  .  .  .        .        .           .  .  .
+    27 .  0.0000  .  0.0000  .  .  .       .  0.0000  0.0000  <0.0001~{super 4}  5  .  .  .        .        .           .  .  .
+    28 .       .  .       .  .  .  .       .       .       .                     5  .  .  .        .        .           .  .  .
+                                                                                               12:24 Wednesday, November 1, 2023   4
+
+ 
+                                                                                                           c
+                                                      l                                                    t         _
+        t   t   t   t                                 e                                                    o         l
+     O  i   i   i   i   f   f   f   f   f             v                                                    t         i
+     b  t   t   t   t   t   t   t   t   t             e             c        c              c              a         n     p
+     s  1   2   3   4   1   2   3   4   5             l             i        1              2              l         e     1
+
+    29                                          Mean (SD)               82.8 (11.3)    89.5 (14.3)    85.4 (13.0)    3        .
+    30                                          Median                  80.0           88.0           84.0           4        .
+    31                                          Q1, Q3                  75.0, 90.0     80.0, 98.0     76.0, 92.0     5        .
+    32                                          Range                   (50.0-145.0)   (50.0-160.0)   (50.0-160.0)   6        .
+    33                                                                                                               7        .
+    34                                      Smoking Status                                                           1   0.0000
+    35                                          Missing                 16 (.%)        20 (.%)        36             2        .
+    36                                          Heavy (16-25)           603 (57.6%)    443 (42.4%)    1046 (20.2%)   3        .
+    37                                          Light (1-5)             392 (67.7%)    187 (32.3%)    579 (11.2%)    4        .
+    38                                          Moderate (6-15)         363 (63.0%)    213 (37.0%)    576 (11.1%)    5        .
+    39                                          Non-smoker              1610 (64.4%)   891 (35.6%)    2501 (48.3%)   6        .
+    40                                          Very Heavy (> 25)       234 (49.7%)    237 (50.3%)    471 (9.1%)     7        .
+
+                                                                       o                                      h
+                                                         p             l                                   h  a
+                                                         v             d                          p     f  a  v  h
+                                                         a          n  l     b     f  b     f  n  f     d  v  e  a
+     O                          p    p     p  p          l          v  i  n  y  b  b  y  b  b  o  o  p  a  e  t  v
+     b  p  p  p  p  p  p  p  p  1    1     1  1          u          a  n  b  n  y  y  n  y  y  b  o  f  t  c  o  e
+     s  2  3  4  5  6  7  8  9  0    1     2  3          e          r  e  y  1  1  1  2  2  2  s  t  t  e  i  t  p
+
+    29  .  .  .  .  .  .  .  .  .       .  .  .                     5  .  .  .        .        .           .  .  .
+    30  .  .  .  .  .  .  .  .  .       .  .  .                     5  .  .  .        .        .           .  .  .
+    31  .  .  .  .  .  .  .  .  .       .  .  .                     5  .  .  .        .        .           .  .  .
+    32  .  .  .  .  .  .  .  .  .       .  .  .                     5  .  .  .        .        .           .  .  .
+    33  .  .  .  .  .  .  .  .  .       .  .  .                     5  .  .  .        .        .           .  .  .
+    34  .  .  .  .  .  .  .  .  .  0.9629  .  .  <0.0001~{super 5}  6  .  .  .        .        .           .  .  .
+    35  .  .  .  .  .  .  .  .  .       .  .  .                     6  .  .  .        .        .           .  .  .
+    36  .  .  .  .  .  .  .  .  .       .  .  .                     6  .  .  .        .        .           .  .  .
+    37  .  .  .  .  .  .  .  .  .       .  .  .                     6  .  .  .        .        .           .  .  .
+    38  .  .  .  .  .  .  .  .  .       .  .  .                     6  .  .  .        .        .           .  .  .
+    39  .  .  .  .  .  .  .  .  .       .  .  .                     6  .  .  .        .        .           .  .  .
+    40  .  .  .  .  .  .  .  .  .       .  .  .                     6  .  .  .        .        .           .  .  .

@@ -1,0 +1,162 @@
+1                                                          The SAS System                          12:24 Wednesday, November 1, 2023
+
+NOTE: Copyright (c) 2016 by SAS Institute Inc., Cary, NC, USA. 
+NOTE: SAS (r) Proprietary Software 9.4 (TS1M7) 
+      Licensed to MEDICAL COLLEGE OF WISCONSIN - T&R SFA, Site 70183647.
+NOTE: This session is executing on the Linux 3.10.0-514.10.2.el7.x86_64 (LIN X64) platform.
+
+
+
+NOTE: Analytical products:
+      
+      SAS/STAT 15.2
+      SAS/ETS 15.2
+      SAS/OR 15.2
+      SAS/IML 15.2
+      SAS/QC 15.2
+
+NOTE: Additional host information:
+
+ Linux LIN X64 3.10.0-514.10.2.el7.x86_64 #1 SMP Fri Mar 3 00:04:05 UTC 2017 x86_64 CentOS Linux release 7.6.1810 (Core)  
+
+NOTE: SAS initialization used:
+      real time           0.03 seconds
+      cpu time            0.03 seconds
+      
+1          
+2          ods path work.testtemp(update) sasuser.templat(update) sashelp.tmplmst(read);
+3          
+4          proc template;
+5          define style styles.notsominimal /store=work.testtemp;
+6          parent=styles.minimal;
+7          style Table / cellpadding = 3;
+8          end;
+NOTE: STYLE 'Styles.Notsominimal' has been saved to: WORK.TESTTEMP
+9          run;
+NOTE: PROCEDURE TEMPLATE used (Total process time):
+      real time           0.02 seconds
+      cpu time            0.02 seconds
+      
+
+10         
+11         /*** example: Mayo clinic SAS table macro             ***/
+12         /*** http://bioinformaticstools.mayo.edu              ***/
+13         
+14         %include "table.macro";
+3336       
+3337       data heart;
+3338       	set sashelp.heart;
+3339       run;
+
+NOTE: There were 5209 observations read from the data set SASHELP.HEART.
+NOTE: The data set WORK.HEART has 5209 observations and 17 variables.
+NOTE: DATA statement used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.02 seconds
+      
+
+3340       
+3341       proc contents data = heart; run;
+
+2                                                          The SAS System                          12:24 Wednesday, November 1, 2023
+
+NOTE: PROCEDURE CONTENTS used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.00 seconds
+      
+NOTE: The PROCEDURE CONTENTS printed page 1.
+
+3342       
+3343       /*** EXAMPLE 1: create table using only required parameters ***/
+3344       /*
+3345       Required parameters:
+3346       DSN = dataset name, dataset must have only one line per patient
+3347       VAR = list of discrete, continuous and censored variables in the order in which
+3348          |       they will be printed (discrete variables can be character or numeric,
+3349          |       but continuous variables must be numeric)
+3350       TYPE = list of indicators for type of analysis for each variable in the var parameter (REQUIRED)
+3351          |        If a list of variables are of the same type, you only have to enter the type once
+3352          |        1=continuous data: prints n, mean, median, std, quartiles, range
+3353          |          - these default stats can be changed in the CSTATS variable
+3354          |        2=discrete data: prints freqs (n, %) - these default stats can be
+3355          |          changed in the DSTATS variable
+3356          |        ...
+3357       */
+3358       
+3359       %table(DSN     = heart
+3360       	  ,VAR     = Status AgeCHDdiag Sex Cholesterol Systolic Diastolic Smoking_Status
+3361       	  ,TYPE    = 2 1 2 1 1 1 2
+3362       	  ,OUTDOC  = heart_base_tbl.doc
+3363       	   );
+Created File: heart_base_tbl.doc
+3364       
+3365       
+3366       /*** EXAMPLE 2: create table with additional options ***/
+3367       
+3368       /* see table.macro documentation for descriptions of additional parameters */
+3369       
+3370       %let vars   = AgeCHDdiag Sex Cholesterol Systolic Diastolic Smoking_Status;
+3371       %let types  = 1 2 1 1 1 2;
+3372       %let ptypes = te fe w w tu ch;
+3373       
+3374       %table(DSN     = heart
+3375             ,BY      = status
+3376       	  ,VAR     = &vars
+3377       	  ,TYPE    = &types
+3378       	  ,PTYPE   = &ptypes
+3379       	  ,PVALUES = y
+3380       	  ,OUTDOC  = heart_baseplus_tbl.doc
+3381             ,OUTDAT  = heart_baseplus_status
+3382       	  ,PCTTYPE = row
+3383       	  ,CSTATS  = n
+3384       	             mean
+3385       	 		     sd
+3386       	 		     median
+3387       	 		     quartiles
+3388       	 		     range
+3389       	  ,PFOOT   = y
+3390       	  ,TTITLE1 = Patient characteristics by vital status
+3391       	  ,TOTAL   = y
+3392       	   );
+                             The SAS System
+
+Created File: heart_baseplus_tbl.doc
+3393       
+3394       proc print data = heart_baseplus_status; run;
+
+WARNING: Data too long for column "pft"; truncated to 128 characters to fit.
+NOTE: There were 40 observations read from the data set WORK.HEART_BASEPLUS_STATUS.
+NOTE: The PROCEDURE PRINT printed pages 2-4.
+NOTE: PROCEDURE PRINT used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.01 seconds
+      
+
+3395       	
+3396       /*** EXAMPLE 3: create document with multiple tables ***/
+3397       
+3398       
+3399       %include "tablemrg.macro";
+3929       
+3930       %table(DSN     = heart
+3931             ,BY      = sex
+3932       	  ,VAR     = &vars
+3933       	  ,TYPE    = &types
+3934       	  ,PTYPE   = &ptypes
+3935             ,OUTDAT  = heart_baseplus_sex
+3936       	  ,TTITLE1 = Patient characteristics by sex
+3937       	   );
+3938       
+3939       %tablemrg(DSN = heart_baseplus_status heart_baseplus_sex
+3940                ,OUTDOC = heart_status_sex_tbls.doc
+3941       );
+Created File: heart_status_sex_tbls.doc
+3942       
+3943       
+3944       
+
+NOTE: SAS Institute Inc., SAS Campus Drive, Cary, NC USA 27513-2414
+NOTE: The SAS System used:
+      real time           2.14 seconds
+      cpu time            2.17 seconds
+      
