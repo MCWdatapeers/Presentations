@@ -1,0 +1,79 @@
+---
+title: "tbl_uvregression"
+author: "Michelle Teng"
+date: "`r Sys.Date()`"
+output:
+  html_document: default
+  word_document: default
+  df_print: paged
+  pdf_document: default
+---
+
+```{r, warning=FALSE, message=FALSE, echo=FALSE}
+library(gtsummary)
+library(survival)
+library(lme4)
+library(HSAUR3)
+
+toenail$outcome = ifelse(toenail$outcome=="none or mild",
+                         0,1)
+```
+
+
++ This function estimates univariate regression models and returns them in a publication-ready table. 
+
++ It can create univariate regression models holding either a covariate or outcome constant.
+
++ For models holding outcome constant, the function takes as arguments a data frame, the type of regression model, and the outcome variable y=. Each column in the data frame is regressed on the specified outcome. 
+
++ You may alternatively hold a single covariate constant. For this, pass a data frame, the type of regression model, and a single covariate in the x= argument. Each column of the data frame will serve as the outcome in a univariate regression model. **Take care using the x argument that each of the columns in the data frame are appropriate for the same type of model, e.g. they are all continuous variables appropriate for lm, or dichotomous variables appropriate for logistic regression with glm.**
+
++ List of models supported: https://www.danieldsjoberg.com/gtsummary/articles/tbl_regression.html
+
+
+
+```{r,results='asis',echo=T,warning=F,message=F}
+trial2 = trial %>%
+           mutate(stage2 = ifelse(stage %in% c("T1","T2"),
+                                  "T1 or T2",
+                                  "T3 or T4"))
+
+tbl_uvregression(
+    data = trial2,
+    include = c(age, grade, stage, stage2),
+    #data = trial2 %>% select(response,age,grade,stage,stage2),
+    method = glm,
+    y = response,
+    method.args = list(family = binomial),
+    exponentiate = TRUE,
+    label = list(age ~ "Patient age",
+                 stage ~ "T Stage",
+                 stage2 ~ "Stage T3-T4"),
+    # style_sigfig when coefficients are not exponentiated
+    estimate_fun = function(x) style_ratio(x, digits = 3), 
+    pvalue_fun = function(x) style_pvalue(x, digits = 3),
+    show_single_row = "stage2",
+  ) %>%
+  add_nevent() %>%
+  bold_p(t=0.1) %>% # bold p-values under a given threshold (default 0.05)
+  bold_labels() %>%
+  italicize_levels()
+
+# Use of formula argument for random intercept model
+tbl_uvregression(
+    data = toenail,
+    include = c(treatment),
+    method = glmer,
+    y = outcome,
+    method.args = list(family = binomial),
+    exponentiate = TRUE,
+    estimate_fun = function(x) style_ratio(x, digits = 3),
+    pvalue_fun = function(x) style_pvalue(x, digits = 3),
+    formula = "{y} ~ {x} + (1|patientID)"
+  ) 
+
+
+# y = Surv(ttdeath,death) for coxph
+```
+
+

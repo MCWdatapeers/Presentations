@@ -1,0 +1,296 @@
+---
+title: "The flextable R package"
+date: "2023-12-06"
+date-format: "MMM D, YYYY"
+format: 
+      html
+            # reference-doc: test_pptx_template.potx
+editor: visual
+---
+
+## Creating and customizing pretty tables with flextable
+
+Lisa E Rein, ScM \| Biostatistician III
+
+Institute for Health & Equity
+
+Division of Biostatistics
+
+Biostatistics Consulting Service
+
+lrein\@mcw.edu
+
+\*she/her/hers
+
+## Outline
+
+-   About flextable
+
+-   flextable options
+
+-   Applications of flextable
+
+-   References
+
+## About flextable
+
+<p style="font-size:24pt; font-style:bold; color:skyblue">
+
+#### Package description:
+
+*"Use a grammar for creating and customizing pretty tables. The following formats are supported: 'HTML', 'PDF', 'RTF', 'Microsoft Word', 'Microsoft PowerPoint' and R 'Grid Graphics'. 'R Markdown', 'Quarto' and the package 'officer' can be used to produce the result files. The syntax is the same for the user regardless of the type of output to be produced. ..."*
+
+</p>
+
+#### Similar packages:
+
+-   huxtable
+-   kable; kableExtra
+-   htmlTable
+-   xtable
+
+## How to install flextable:
+
+#### From CRAN:
+
+```{r echo = TRUE, eval = FALSE}
+
+install.packages("flextable")
+library(flextable)
+
+```
+
+#### From GitHub:
+
+```{r echo = TRUE, eval = FALSE}
+
+library(devtools)
+devtools::install_github("davidgohel/flextable")
+library(flextable)
+
+```
+
+```{r echo = FALSE, eval = TRUE, warning = FALSE, message = FALSE}
+
+library(tidyverse)
+library(gtsummary)
+library(officer)
+library(datasets) 
+
+library(flextable)
+
+```
+
+```{r echo = FALSE, eval = TRUE}
+
+library(tidyverse)
+library(gtsummary)
+library(officer)
+library(datasets) 
+
+mtcars2 <- within(mtcars, {
+   vs <- factor(vs, labels = c("V", "S"))
+   am <- factor(am, labels = c("automatic", "manual"))
+})
+
+mtcars <- mtcars2
+
+```
+
+## Flextable options: create base flextable from data frame or table
+
+```{r echo = TRUE, eval = TRUE}
+
+head(mtcars)
+
+ft <- flextable(head(mtcars))
+ft
+
+```
+
+## Flextable options: apply a theme
+
+```{r}
+
+ft %>% theme_zebra()
+
+```
+
+## 
+
+```{r}
+
+ft %>% theme_tron_legacy()
+
+```
+
+## 
+
+```{r}
+
+ft %>% theme_box()
+
+```
+
+## Flextable options: format flextable object
+
+```{r echo = TRUE, eval = TRUE}
+
+ft <- flextable(head(mtcars))
+
+ft <- ft %>% 
+      flextable::bold(part = "header") %>%
+      flextable::add_footer_lines("*Note a caption here") %>%
+      flextable::void(j = 2, part = "body") %>%
+      flextable::delete_rows(i = 3, part = "body") %>%
+      flextable::align(j = 8:9, part = "all", align= "center") %>%
+      flextable::surround(i = 1, j = 1, border = fp_border(color = "orange"), part = "body") %>%
+      flextable::bg(i = ~ wt > 3, j = ~ wt, bg = "yellow") %>%
+      flextable::color(j = ~ gear, color = "red", part = "body") %>%
+      flextable::hline(i = 2, part= "body") %>%
+      flextable::add_header_row(values = paste("Group", 1:4), colwidths = c(3,3,3, 2), top = TRUE) %>%
+      flextable::vline(j = c(3,6,9), part= "all") %>%
+      flextable::align(i = 1, part = "header", align = "center") %>%
+      flextable::add_header_lines("Title: Head of mtcars R dataset") 
+
+ft
+
+```
+
+## Flextable options: format flextable to fit better on the page
+
+```{r echo = TRUE, eval = TRUE}
+
+ft <- ft %>% 
+      flextable::width(j = 9, width = 2, unit = "in") %>%
+      flextable::padding(padding.top = 0.5, padding.bottom = 0.5)
+
+ft
+
+```
+
+## Applications of flextable
+
+-   Customize & print a data frame or grouped data frame to include in reports
+-   Create new summary tables and crosstabs
+-   Create and customize flextable objects from model objects and output from other R packages
+
+## Create a flextable from a data frame or table
+
+```{r echo = TRUE, eval = TRUE}
+
+flextable(head(mtcars))
+
+```
+
+## Create a flextable from a grouped data frame
+
+```{r echo = TRUE, eval = TRUE}
+
+mtcars_grouped <- flextable::as_grouped_data(head(mtcars), groups = "am")
+
+flextable::flextable(mtcars_grouped)
+
+```
+
+## Use flextable to create a summary table
+
+```{r echo = TRUE, eval = TRUE}
+
+t <- flextable::summarizor(mtcars[,c("am", "gear", "mpg")]
+                          ,by = "am"
+                          ,overall_label = "All"
+                          ,num_stats = c("mean_sd"
+                                        , "median_iqr"
+                                        , "range"
+                                        )
+                          )
+flextable::as_flextable(t)
+
+```
+
+## Use flextable to create a cross tab
+
+```{r echo = TRUE, eval = TRUE}
+
+flextable::as_flextable(table("Cylinders" = mtcars$cyl, "Gear" = mtcars$gear))
+
+```
+
+## Create a flextable from model objects
+
+Supported models:
+
+-   lm: Linear models
+-   glm: Generalized linear models
+-   gam: Generalized additive models
+-   Mixed effects models (lme4, nlme, gls, glmmTMB, glmmadmb)
+
+```{r echo = TRUE, eval = TRUE}
+
+fit <- lm(mpg ~ cyl + wt + gear, data = mtcars)
+
+flextable::as_flextable(fit)
+
+```
+
+## Create a flextable from gtsummary objects
+
+```{r echo = TRUE, eval = TRUE, warning = FALSE, message = FALSE}
+
+attr(mtcars$mpg, "label") <- "Miles per Gallon"
+attr(mtcars$cyl, "label") <- "Cylinders"
+attr(mtcars$disp, "label") <- "Displacement (as an example this variable has a really really really long label)"
+
+gts_tbl <- gtsummary::tbl_summary(mtcars[,c("am", "mpg", "cyl", "disp")]
+                                  ,by = "am"
+                                  ) %>%
+      gtsummary::add_overall() %>%
+      gtsummary::add_p(pvalue_fun = function(x) style_pvalue(x, digits = 3))
+
+
+gts_tbl
+
+```
+
+```{r}
+
+gtsummary::as_flex_table(gts_tbl) %>%
+      flextable::width(j = ~ label, width = 2, unit = "in") %>%
+      flextable::padding(padding.top = 0.5, padding.bottom = 0.5) %>%
+      flextable::bold(i = ~ p.value < 0.001, j = ~ p.value) %>%
+      flextable::bg(i = ~ p.value < 0.001, j = ~ label, bg = "yellow") %>%
+      flextable::add_header_lines("Summary of mtcars dataset") %>%
+      flextable::fontsize(size = 9, part = "all")
+
+```
+
+#### Get gtsummary table names:
+
+```{r message=FALSE, warning=FALSE}
+
+gtsummary::show_header_names(gts_tbl)
+
+```
+
+## References
+
+-   Github:
+
+    -   <https://davidgohel.github.io/flextable/>
+
+-   flextable book:
+
+    -   <https://ardata-fr.github.io/flextable-book/>
+
+-   flextable function reference:
+
+    -   <https://davidgohel.github.io/flextable/reference/index.html>
+
+-   flextable gallery:
+
+    -   <https://ardata.fr/en/flextable-gallery/>
+
+-   EpiR handbook flextable tutorial:
+
+    -   <https://epirhandbook.com/en/tables-for-presentation.html>

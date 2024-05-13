@@ -1,0 +1,142 @@
+---
+title: "Reporting in R -- Word"
+author: "Ryan Conrardy"
+format: docx
+editor: visual
+---
+
+## Quarto and R Markdown
+
+R Markdown is the traditional method for generating code and output into a document. Uses Knitr to combine code and text to create documents or presentations. For more on R Markdown see <https://rmarkdown.rstudio.com/>.
+
+Like R Markdown Quartro uses Knitr to execute the R code and can even run R Markdown documents. Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+
+Both run on a similar framework. You have text interspersed with blocks of code (code blocks) that run to produce output that is inserted into the text (either tables, graphs, or raw text). For this example I will be using Quarto, to produce a word document (this file) and a HTML document (other file). This will be done to show how the same exact code does have some differences in the output, as well as to show the unique benefits and pros/cons of different output document types.
+
+## Importing Data and Libraries
+
+Just like when working in the R environment normally, you import libraries by calling them. Ideally this is done at the top of the document before any other code is run, but you can call the libraries anywhere in the code as long as it is **before** any functions requiring them.
+
+```{r}
+#| label: Libraries
+
+# list of libraries, not all were used for this exact analysis, but are included to show importing and output
+library(ggplot2)
+library(plyr)
+library(dplyr)
+library(tidyverse)
+library(gtsummary)
+library(readxl)
+library(table1)
+library(kableExtra)
+```
+
+Data can be read in and saved to the enviroment (usually as either a table or Dataframe) just like in Base R as well. Below is a sample of reading in a simple dataset on Food info. It consists of 8 columns (category, item name, amount, calories, protein, fat, carbs, and fiber).
+
+```{r}
+#| label: readxl
+
+# reading in the data via the readxl package
+Food <- read_xlsx("C:/Users/rconrardy/Documents/Side Projects/Presentations/Data Peers/Producing Documents R/sampledatafoodinfo.xlsx", sheet = "FoodList", na = c("NA", "na", "N/A", "n/a", "", " "), col_names = T)
+
+head(Food, n = 20)
+
+# reading in a csv dataset with readcsv function
+Test <- read.csv("C:/Users/rconrardy/Documents/Side Projects/Presentations/Data Peers/Producing Documents R/Death_rates_for_suicide.csv", na.strings = c("NA", "na", "N/A", "n/a", "", " "))
+
+head(Test, n = 20)
+```
+
+R can read other formats of data too with other functions. Depending it may require a special package, or packages may exist to make it easier than the function built into base R.
+
+## Making Tables
+
+There are plenty of packages for producing tables. Especially summary tables, such as table1, gtsummary, or even by hand using Kable. For this example I will show a quick table in gtsummary.
+
+### Gtsummary
+
+gtsummary is another package capable of making tables. This includes functions like tbl_summary (shown below) for summary statistics, tbl_regression for regression tables, and more. Generally it is more robust than Table1, but can often take longer to load/render. For more on gtsummary click here <https://www.danieldsjoberg.com/gtsummary/>.
+
+```{r}
+#| label: gtsummary
+
+tbl_summary(data = trial, 
+            by = trt, 
+            include = c(age, marker, stage, grade, death))
+```
+
+## Making Figures
+
+By far the best package used for making figures is ggplot2, however depending on the type of figure you need or want to make other packages exist. Much like how code blocks are used to generate tables, code blocks are also used to create figures.
+
+```{r}
+#| label: histo
+
+ggplot(Food, 
+       aes(x=Calories)) + 
+  geom_histogram(binwidth = 10)
+```
+
+ggplot allows you to completely modify graphs, such as changing color, appearance, labels, titles, and more.
+
+```{r}
+#| label: ggplot-histo
+
+
+ggplot(Food, 
+       aes(x=Calories)) + 
+  geom_histogram(binwidth = 10,
+                 color = "red",
+                 fill = "white") +
+  geom_vline(aes(xintercept = mean(Calories)),
+             color = "blue",
+             linetype = "dashed",
+             linewidth = 1) +
+  labs(title = "Modified Histogram Plot", 
+       y = "Number of Foods with Calories", 
+       x = "Amount of Calories in Food")
+
+# separate groups
+ggplot(Food, 
+       aes(x=Calories, color = Category)) + 
+  geom_histogram(binwidth = 10,
+                 alpha = 0.5, 
+                 position = "identity") +
+  labs(title = "Histogram separated by Category")
+```
+
+## Hiding Code and Code Output
+
+Sometimes (or most of the time) you don't want the client to see the raw code. Either cause it doesn't look good, or because it's not important. You can do this simply by adding `#| echo: false` to the top of the command arguments. For example: here is how the code would look:
+
+```{r}
+#| eval: false
+#| output: false
+#| label: hello-world-1
+# #| echo: false
+
+print("hello world")
+```
+
+and here is just the output of that code, with no visible code:
+
+```{r}
+#| echo: false
+#| label: hello-world-2
+
+print("hello world")
+```
+
+You can also suppress warnings, messages, or even the output with other commands such as:
+
+`#| warning: false` \<\-- suppresses warnings in the output
+
+`#| eval: false` \<\-- just echos the code, but does not run the code (this can be done if you want to show code, but not actually run it)
+
+`#| output: false`\<\--don't include the results of executing the code in the output
+
+`#| error: false` \<\-- suppresses errors in output (implies that errors executing code will not halt processing/rendering of document)
+
+`#| include: false` \<\-- prevents any output (code or results) from being included in output
+
+These and more execution options can be found here <https://quarto.org/docs/computations/execution-options.html>.
